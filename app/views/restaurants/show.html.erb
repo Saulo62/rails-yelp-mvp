@@ -1,0 +1,49 @@
+<div class="container py-4">
+
+  <!-- Restaurante Info -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <h2 class="card-title"><%= @restaurant.name %></h2>
+      <h6 class="card-subtitle mb-3 text-muted"><%= @restaurant.category.capitalize %></h6>
+      <p class="card-text">
+        <strong>Address:</strong> <%= @restaurant.address %><br>
+        <strong>Phone:</strong> <%= @restaurant.phone_number %>
+      </p>
+      <%= link_to "Back to list", restaurants_path, class: "btn btn-outline-secondary btn-sm" %>
+    </div>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="mb-4">
+    <h3 class="mb-3">Reviews</h3>
+    <% if @restaurant.reviews.any? %>
+      <ul class="list-group mb-3">
+        <% @restaurant.reviews.each do |review| %>
+          <li class="list-group-item">
+            <p class="mb-1"><%= review.content %></p>
+            <small class="text-muted">Rating: <%= review.rating %> ⭐</small>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="text-muted">This restaurant has no reviews yet.</p>
+    <% end %>
+  </div>
+
+  <!-- Add Review Form -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title mb-3">Add a Review</h4>
+      <%= simple_form_for([@restaurant, @review]) do |f| %>
+        <div class="mb-3">
+          <%= f.input :content, label: false, placeholder: "Write your review here..." %>
+        </div>
+        <div class="mb-3">
+          <%= f.input :rating, in: 0..5, step: 1, label: "Rating" %>
+        </div>
+        <%= f.button :submit, "Submit Review", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+</div>
